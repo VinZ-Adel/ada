@@ -19,24 +19,47 @@ namespace ada5
 			List<Dictionary<char, int>> TextSideList = new List<Dictionary<char, int>>();
 			List<Dictionary<char, int>> InputSideList = new List<Dictionary<char, int>>();
 
-			RegPhrase current = new(Console.ReadLine() ?? "");
-			MatchCollection matches = current.regex.Matches(pureText);
-			for (int i = 0; i < matches.Count(); i++)
+			while (true)
 			{
-				string m = matches[i].ToString();
-				Dictionary<char, int> TextSide = new();
-				Dictionary<char, int> InputSide = new();
-				foreach (char c in m)
+				RegPhrase current = new(Console.ReadLine() ?? "");
+				MatchCollection matches = current.regex.Matches(pureText);
+				for (int i = 0; i < matches.Count(); i++)
 				{
-					TextSide.TryAdd(c, m.Count(o => o == c));
+					string m = matches[i].ToString();
+					Dictionary<char, int> TextSide = new();
+					Dictionary<char, int> InputSide = new();
+					foreach (char c in m)
+					{
+						TextSide.TryAdd(c, m.Count(o => o == c));
+					}
+					string n = current.words[i];
+					foreach (char v in n)
+					{
+						InputSide.TryAdd(v, n.Count(p => p == v));
+					}
+					TextSideList.Add(TextSide);
+					InputSideList.Add(InputSide); //storing each word as a character-count- dictionary so that they can be processed later.
 				}
-				string n = current.words[i];
-				foreach (char v in n)
+				foreach (var inpL in InputSideList)
 				{
-					InputSide.TryAdd(v, n.Count(p => p == v));
+					foreach (var textL in TextSideList)
+					{
+						if (Enumerable.SequenceEqual(inpL.Values/*.OrderBy(e => e)*/, textL.Values/*.OrderBy(e => e)*/))
+						{
+							foreach (char c in inpL.Keys)
+							{
+								Console.Write(c + "\t");
+								Console.WriteLine();
+							}
+							foreach (char c in textL.Keys)
+							{
+								Console.Write(c + "\t");
+								Console.WriteLine();
+							}
+							//ask user whether to add rule according, store rules in a list or something and allow the user to delete rules if needed (like if user chooses or there is a discrepancy in the rules)
+						}
+					}
 				}
-				TextSideList.Add(TextSide);
-				InputSideList.Add(InputSide); //storing each word as a dictionary so that they can be processed later.
 			}
 		}
 		// I will try to convert user input to a regex, then I will search for matches in pureText, and compare the number of occurrences of each letter to see if it is a possible match.
