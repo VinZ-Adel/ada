@@ -25,24 +25,25 @@ namespace ada5
 		{
 			Phrase = phrase.ToUpper();
 			regex = StringToRegexUpper(phrase);
-			words = Regex.Matches(phrase, alfaUpper).Cast<Match>().Select(m => m.Value).ToArray();
+			words = Regex.Matches(phrase.ToUpper(), alfaUpper + @"+").Cast<Match>().Select(m => m.Value).ToArray();
 		}
 
 
-		static readonly Regex word = new(@"\b" + alfaUpper + @"+" + alfaNot);
+		static readonly Regex word = new(@"\b" + alfaUpper + @"+\b");
 
 		public static Regex StringToRegexUpper(string inputPhrase)
 		{
 			string temp = inputPhrase.ToUpper();
 			MatchCollection matches = word.Matches(temp);
 
-			string regg = @"";
+			string regg = @"\b";
 			for (int i = 0; i < matches.Count(); i++)
 			{
 				regg += alfaUpper + @"{" + matches[i].Length + @"}";
 				if (i != matches.Count() - 1)
 					regg += @" ";
 			}
+			regg += @"\b";
 			return new(regg);
 		}
 	}
