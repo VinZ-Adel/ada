@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ada5
@@ -18,9 +19,9 @@ namespace ada5
         {
             Input = input;
             TextSide = textSide;
-            InputCharCount = _charCount(Input);
-            TextSideCharCount = _charCount(TextSide);
-
+            InputCharCount = _charCount(input);
+            TextSideCharCount = _charCount(textSide);
+			Rule = RuleMe(textSide, input);
         }
 
         private Dictionary<char, int> _charCount(string input)
@@ -33,13 +34,13 @@ namespace ada5
             return temp;
         }
 
-        private Dictionary<char, char> RuleMe(string input, string textside)
+        private Dictionary<char, char> RuleMe(string textside, string input)
         {
             Dictionary<char, char> temp = new();
             for (int i = 0; i < input.Length; i++)
             {
-                if (input[i] != textside[i])
-                    temp.Add(textside[i], input[i]);
+                if (!Regex.IsMatch(input[i].ToString(), @"\s"))
+                    temp.TryAdd(textside[i], input[i]);
             }
             return temp;
         }
