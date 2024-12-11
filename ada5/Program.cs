@@ -38,15 +38,25 @@ namespace ada5
 					switch (inp.ToLower())
 					{
 						case "/text":
-							char[] output = text.ToCharArray();
-							for (int i = 0; i < output.Length; i++)
+							char[] textTemp = text.ToCharArray();
+							for (int i = 0; i < textTemp.Length; i++)
 							{
-								if (sol.Keys.Contains(output[i]))
+								if (sol.Keys.Contains(textTemp[i]))
 								{
-									output[i] = sol[output[i]];
+									Console.Write(sol[textTemp[i]]);
 								}
+								else
+                                {
+									bool isAlfabetisk = Alfabetet.Contains(textTemp[i]);
+
+                                    if (isAlfabetisk)
+										Console.BackgroundColor = ConsoleColor.DarkRed;
+                                    Console.Write(textTemp[i]);
+									if (isAlfabetisk)
+										Console.BackgroundColor = ConsoleColor.Black;
+                                }
 							}
-							Console.WriteLine(output);
+							Console.WriteLine();
 							break;
 						case "/decode":
 							Console.Write("String to decode: ");
@@ -55,7 +65,7 @@ namespace ada5
 							{
 								if (sol.Keys.Contains(encoded[i]))
 								{
-									encoded[i] = los[encoded[i]];
+									encoded[i] = sol[encoded[i]];
 								}
 							}
 							Console.WriteLine(encoded);
@@ -65,7 +75,7 @@ namespace ada5
 							char[] decoded = Console.ReadLine().ToUpper().ToCharArray();
 							for (int i = 0; i < decoded.Length; i++)
 							{
-								if (sol.Keys.Contains(decoded[i]))
+								if (los.Keys.Contains(decoded[i]))
 								{
 									decoded[i] = los[decoded[i]];
 								}
@@ -113,7 +123,7 @@ namespace ada5
 					List<RuleContainer> rules1 = new List<RuleContainer>();
 					foreach (var _rule in supposedRuleList)
 					{
-						if (Enumerable.SequenceEqual(_rule.InputCharCount.Values, _rule.TextSideCharCount.Values))
+						if (Enumerable.SequenceEqual(_rule.InputCharCount.Values, _rule.TextSideCharCount.Values) && !rules1.Any(c => c.TextSide == _rule.TextSide))
 						{
 							rules1.Add(_rule);
 						}
@@ -157,12 +167,14 @@ namespace ada5
 										catch { }
 									}
 									Console.WriteLine("\nRule added.");
-									breakk = true;
+                                    Console.WriteLine();
+                                    breakk = true;
 									break;
 								}
 								else if (input.KeyChar == 'n')
 								{
 									Console.WriteLine("\nRule skipped.");
+									Console.WriteLine();
 									break;
 								}
 							}
@@ -216,10 +228,44 @@ namespace ada5
 								}
 								Console.WriteLine();
 							}
+							Console.WriteLine();
 						}
 					}
 				}
 			}
+		}
+
+		public static void TextWrite(char[] text)
+		{
+			bool skip = false;
+			foreach (char c in text)
+			{
+				if (skip)
+				{
+					skip = false;
+				}
+				else
+				{
+					if (c == '\\')
+					{
+						skip = true;
+					}
+					else if (!Char.IsWhiteSpace(c))
+					{
+						bool decrypted = (nyckel[Array.IndexOf(Alfabetet, c)] != null);
+						if (decrypted)
+							Console.BackgroundColor = ConsoleColor.DarkBlue;
+                        Console.Write(c);
+                        if (decrypted)
+                            Console.BackgroundColor = ConsoleColor.Black;
+                    }
+					else
+					{
+						Console.Write(c);
+					}
+				}
+			}
+			Console.WriteLine();
 		}
 
 

@@ -15,7 +15,7 @@ namespace ada4
 			{
 				string codeNum = string.Join("",code);
 				string usrIn = "AdaLovelace-" + codeNum;
-				Console.Clear();
+				//Console.Clear();
 				Console.WriteLine(usrIn);
 				if (slow)
 				{
