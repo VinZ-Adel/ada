@@ -60,7 +60,8 @@ namespace ada5
 							break;
 						case "/decode":
 							Console.Write("String to decode: ");
-							char[] encoded = Console.ReadLine().ToUpper().ToCharArray();
+                            string uInput = Console.ReadLine() ?? "";
+                            char[] encoded = uInput.ToUpper().ToCharArray();
 							for (int i = 0; i < encoded.Length; i++)
 							{
 								if (sol.Keys.Contains(encoded[i]))
@@ -72,7 +73,8 @@ namespace ada5
 							break;
 						case "/encode":
 							Console.Write("String to encode: ");
-							char[] decoded = Console.ReadLine().ToUpper().ToCharArray();
+							string usrInput = Console.ReadLine() ?? "";
+							char[] decoded = usrInput.ToUpper().ToCharArray();
 							for (int i = 0; i < decoded.Length; i++)
 							{
 								if (los.Keys.Contains(decoded[i]))
