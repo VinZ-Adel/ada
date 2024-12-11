@@ -149,37 +149,55 @@ namespace ada5
 								Console.Write(" ");
 							}
 							Console.WriteLine();
-							bool breakk = false;
-							//ask user whether to add rule according, store rules in a list or something and allow the user to delete rules if needed (like if user chooses or there is a discrepancy in the rules)
-							Console.WriteLine("Add this rule to key? (y/n)");
-							while (true)
+
+							if (rules1.Count != 1)
 							{
-								var input = Console.ReadKey();
-								if (input.KeyChar == 'y')
+								bool breakk = false;
+								//ask user whether to add rule according, store rules in a list or something and allow the user to delete rules if needed (like if user chooses or there is a discrepancy in the rules)
+								Console.WriteLine("Add this rule to key? (y/n)");
+								while (true)
 								{
-									actualRules.Add(_rule);
-									for (int i = 0; i < _rule.Input.Count(); i++)
+									var input = Console.ReadKey();
+									if (input.KeyChar == 'y')
 									{
-										try
+										actualRules.Add(_rule);
+										for (int i = 0; i < _rule.Input.Count(); i++)
 										{
-											nyckel[Array.IndexOf(Alfabetet, _rule.Input[i])] = _rule.TextSide[i];
+											try
+											{
+												nyckel[Array.IndexOf(Alfabetet, _rule.Input[i])] = _rule.TextSide[i];
+											}
+											catch { }
 										}
-										catch { }
+										Console.WriteLine("\nRule added.");
+										Console.WriteLine();
+										breakk = true;
+										break;
 									}
-									Console.WriteLine("\nRule added.");
-                                    Console.WriteLine();
-                                    breakk = true;
-									break;
+									else if (input.KeyChar == 'n')
+									{
+										Console.WriteLine("\nRule skipped.");
+										Console.WriteLine();
+										break;
+									}
 								}
-								else if (input.KeyChar == 'n')
-								{
-									Console.WriteLine("\nRule skipped.");
-									Console.WriteLine();
+								if (breakk)
 									break;
-								}
 							}
-							if (breakk)
-								break;
+							else
+							{
+                                actualRules.Add(_rule);
+                                for (int i = 0; i < _rule.Input.Count(); i++)
+                                {
+                                    try
+                                    {
+                                        nyckel[Array.IndexOf(Alfabetet, _rule.Input[i])] = _rule.TextSide[i];
+                                    }
+                                    catch { }
+                                }
+                                Console.WriteLine("\nRule added.");
+                                Console.WriteLine();
+                            }
 						}
 						if (!nyckel.Any(c => c == null))
 						{
