@@ -33,17 +33,17 @@ namespace ada5
 					continue;
 				else if (inp[0] == '/')
 				{
-					var sol = DecoderKey(nyckel, Alfabetet);
-					var los = DecoderKey(Alfabetet, nyckel);
+					var solutionDec = DecoderKey(nyckel, Alfabetet);
+					var solutionEnc = DecoderKey(Alfabetet, nyckel);
 					switch (inp.ToLower())
 					{
 						case "/text":
 							char[] textTemp = text.ToCharArray();
 							for (int i = 0; i < textTemp.Length; i++)
 							{
-								if (sol.Keys.Contains(textTemp[i]))
+								if (solutionDec.Keys.Contains(textTemp[i]))
 								{
-									Console.Write(sol[textTemp[i]]);
+									Console.Write(solutionDec[textTemp[i]]);
 								}
 								else
                                 {
@@ -64,9 +64,9 @@ namespace ada5
                             char[] encoded = uInput.ToUpper().ToCharArray();
 							for (int i = 0; i < encoded.Length; i++)
 							{
-								if (sol.Keys.Contains(encoded[i]))
+								if (solutionDec.Keys.Contains(encoded[i]))
 								{
-									encoded[i] = sol[encoded[i]];
+									encoded[i] = solutionDec[encoded[i]];
 								}
 							}
 							Console.WriteLine(encoded);
@@ -77,9 +77,9 @@ namespace ada5
 							char[] decoded = usrInput.ToUpper().ToCharArray();
 							for (int i = 0; i < decoded.Length; i++)
 							{
-								if (los.Keys.Contains(decoded[i]))
+								if (solutionEnc.Keys.Contains(decoded[i]))
 								{
-									decoded[i] = los[decoded[i]];
+									decoded[i] = solutionEnc[decoded[i]];
 								}
 							}
 							Console.WriteLine(decoded);
